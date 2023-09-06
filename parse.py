@@ -1,4 +1,3 @@
-
 import re
 
 def matematica_para_processos(expressao):
@@ -18,13 +17,16 @@ def matematica_para_processos(expressao):
     for token in tokens:
         if token.isdigit():
             # Se o token for um número, crie uma variável temporária
-            processo.append(f'var{processo_variavel}={token};\r\n')
+            if processo_variavel == 1:
+                    processo.append(f'var{processo_variavel}={token}\r\n')
+            else:            
+                    processo.append(f'{token}\r\n')
             processo_variavel += 1
         elif token in operadores:
             # Se o token for um operador matemático, converta-o para um operador de processo
             operador_processo = operadores[token]
             args = [f'var{i}' for i in range(processo_variavel - 2, processo_variavel)]
-            processo.append(f'{operador_processo},{",".join(args)};')
+            processo.append(f'{operador_processo},{",".join(args)},')
 
     return ''.join(processo)
 
